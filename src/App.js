@@ -1,25 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query' // For React Query
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Home from './Pages/Home';
+import Adduser from './Pages/Adduser';
+import Showuser from './Pages/Showuser';
+import Edituser from './Pages/Edituser';
+import Details from './Pages/Details';
 
-function App() {
+const App = () => {
+
+  // Create Query Client For React Query
+  const queryClient = new QueryClient()
+
+  const public_routing = [
+    {
+      path: '/',
+      component: <Home />
+    },
+    {
+      path: '/adduser',
+      component: <Adduser />
+    },
+    {
+      path: '/showuser',
+      component: <Showuser />
+    },
+    {
+      path: '/edituser/:id',
+      component: <Edituser />
+    },
+    {
+      path: '/details/:id',
+      component: <Details />
+    }
+  ]
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <ToastContainer />
+
+      {/*Cover with QueryClientProvider*/}
+      <QueryClientProvider client={queryClient}>
+
+        <Router>
+          <Routes>
+            {public_routing?.map((routing) => {
+              return (
+                <>
+                  <Route path={routing?.path} element={routing?.component} />
+                </>
+              )
+            })}
+          </Routes>
+        </Router>
+
+      </QueryClientProvider>
+
+
+    </>
+  )
 }
 
-export default App;
+export default App
