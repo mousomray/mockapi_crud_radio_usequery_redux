@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -39,7 +39,7 @@ const Edituser = () => {
     const [gender, setGender] = useState(''); // State to hold selected gender
 
 
-    // Get product For Single Value start
+    // Get product For Single Value (Start)
     const getUser = async () => {
         try {
             const response = await dispatch(detailsuser(id));
@@ -59,10 +59,8 @@ const Edituser = () => {
         }
     };
 
-    useEffect(() => {
-        getUser();
-    }, []);
-    // Get product For Single Value end
+    useQuery({ queryFn: getUser }) // This line of code work as same as useEffect()
+    // Get product For Single Value (End)
 
 
     // Handle form submission
